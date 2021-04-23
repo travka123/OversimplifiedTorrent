@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OversimplifiedTorrent"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="OversimplifiedTorrent" Height="450" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="White">
+            <MenuItem Header="Файл" Height="21" Margin="0 2 2 2">
+                <MenuItem Header="Добавить торрент..." Click="MenuItem_Click_Add"></MenuItem>
+                <MenuItem Header="Выход" Click="MenuItem_Click_Exit"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <Border DockPanel.Dock="Bottom" BorderThickness="1" BorderBrush="Gray" Margin="5">
+            <TextBlock Height="100">
+
+            </TextBlock>
+        </Border>
+        <ListView x:Name="TorrentsList" Margin="5" BorderBrush="Gray" BorderThickness="1" IsTabStop="False">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="200">Название</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </DockPanel>
+
 </Window>

@@ -1,0 +1,15 @@
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\bin\Debug\OversimplifiedTorrent.exe.config
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\bin\Debug\OversimplifiedTorrent.exe
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\bin\Debug\OversimplifiedTorrent.pdb
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.csprojAssemblyReference.cache
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\MainWindow.g.cs
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\App.g.cs
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent_MarkupCompile.cache
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent_MarkupCompile.lref
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\MainWindow.baml
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.g.resources
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.Properties.Resources.resources
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.csproj.GenerateResource.cache
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.csproj.CoreCompileInputs.cache
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.exe
+D:\KSISLabs\Coursework3\OversimplifiedTorrent\obj\Debug\OversimplifiedTorrent.pdb

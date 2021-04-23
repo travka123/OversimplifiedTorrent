@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BencodeData.cs" />
+    <Compile Include="BencodeParser.cs" />
+    <Compile Include="Torrent.cs" />
+    <Compile Include="TorrentBencodeParser.cs" />
+    <Compile Include="TorrentsManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
