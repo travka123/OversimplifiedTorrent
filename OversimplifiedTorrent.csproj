@@ -55,11 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BencodeData.cs" />
-    <Compile Include="BencodeParser.cs" />
-    <Compile Include="Torrent.cs" />
-    <Compile Include="TorrentBencodeParser.cs" />
-    <Compile Include="TorrentsManager.cs" />
+    <Compile Include="BencodeParsing\BencodeData.cs" />
+    <Compile Include="BencodeParsing\BencodeParser.cs" />
+    <Compile Include="Containers\FileInfo.cs" />
+    <Compile Include="TorrentHandling\Torrent.cs" />
+    <Compile Include="BencodeParsing\TorrentBencodeParser.cs" />
+    <Compile Include="TorrentHandling\TorrentsManager.cs" />
+    <Compile Include="TorrentHandling\TorrentFilesStream.cs" />
+    <Compile Include="TorrentHandling\TorrentTrackersManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -5,26 +5,122 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OversimplifiedTorrent"
         mc:Ignorable="d"
-        Title="OversimplifiedTorrent" Height="450" Width="800">
+        Title="OversimplifiedTorrent" Height="576" Width="1024" Closing="Window_Closing">
     <DockPanel>
+
         <Menu DockPanel.Dock="Top" Background="White">
             <MenuItem Header="Файл" Height="21" Margin="0 2 2 2">
                 <MenuItem Header="Добавить торрент..." Click="MenuItem_Click_Add"></MenuItem>
                 <MenuItem Header="Выход" Click="MenuItem_Click_Exit"></MenuItem>
             </MenuItem>
         </Menu>
-        <Border DockPanel.Dock="Bottom" BorderThickness="1" BorderBrush="Gray" Margin="5">
-            <TextBlock Height="100">
 
-            </TextBlock>
-        </Border>
-        <ListView x:Name="TorrentsList" Margin="5" BorderBrush="Gray" BorderThickness="1" IsTabStop="False">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="200">Название</GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <TabControl x:Name="TorrentDataTab" DockPanel.Dock="Bottom" Height="200" Margin="5" BorderBrush="Gray" 
+                    SelectionChanged="TabControl_SelectionChanged">
+
+            <TabItem>
+                <TabItem.Header>
+                    <Label>Информация</Label>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <TextBlock x:Name="tbTorrentInfo" Margin="5"></TextBlock>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Label>Файлы</Label>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <ScrollViewer>
+                        <ListView x:Name="TorrentFilesList" BorderThickness="0">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Width="200" Header="Имя" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+
+                                    <GridViewColumn Width="300" Header="Путь" DisplayMemberBinding="{Binding Path=Path}"></GridViewColumn>
+
+                                    <GridViewColumn Width="80" Header="Размер" DisplayMemberBinding="{Binding Path=SizeString}"></GridViewColumn>
+
+                                    <GridViewColumn Width="150" Header="Прогресс загрузки">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ProgressBar Minimum="0" Maximum="{Binding Path=Size}"  Value="{Binding Path=Downloaded, Mode=OneWay}" 
+                                                 Width="120" Height="15"  Margin="5 0 5 0"></ProgressBar>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Label>Трекеры</Label>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <ScrollViewer>
+                        <ListView x:Name="TorrentTrackersList" BorderThickness="0">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Width="200" Header="Имя" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+
+                                    <GridViewColumn Width="200" Header="Статус" DisplayMemberBinding="{Binding Path=Status}"></GridViewColumn>
+
+                                    <GridViewColumn Width="200" Header="Последнее время обращения" DisplayMemberBinding="{Binding Path=TimeFromLastRequestString}"></GridViewColumn>
+
+                                    <GridViewColumn Width="70" Header="Протокол" DisplayMemberBinding="{Binding Path=ProtocolString}"></GridViewColumn>
+                                    
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </TabItem.Content>
+            </TabItem>
+
+        </TabControl>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <ListView x:Name="TorrentsList" Margin="5" BorderBrush="Gray" BorderThickness="1" IsTabStop="False" 
+                      PreviewMouseLeftButtonUp="TorrentsList_PreviewMouseLeftButtonUp">
+                <ListView.View>
+                    <GridView>
+
+                        <GridViewColumn Width="250" Header="Название">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}" FontSize="14"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="80" Header="Размер">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=SizeString}" FontSize="14"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Width="250" Header="Прогресс загрузки">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ProgressBar Minimum="0" Maximum="{Binding Path=Size}"  Value="{Binding Path=Downloaded, Mode=OneWay}" 
+                                                 Width="220" Height="15"  Margin="5 0 5 0"></ProgressBar>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
 
     </DockPanel>
 

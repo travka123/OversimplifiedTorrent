@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows;
 
 namespace OversimplifiedTorrent {
     public static class TorrentsManager {
@@ -10,7 +11,12 @@ namespace OversimplifiedTorrent {
         }
 
         public static void Add(string torrentFilePath) {
-            TorrentsList.Add(new Torrent(torrentFilePath));
+            try {
+                TorrentsList.Add(new Torrent(torrentFilePath));
+            }
+            catch {
+                MessageBox.Show("Не удалось добавить торрент файл");
+            }
         }
     }
 }
