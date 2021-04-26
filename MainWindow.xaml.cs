@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -35,9 +36,19 @@ namespace OversimplifiedTorrent {
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("torrents_data", FileMode.OpenOrCreate)) {
-                formatter.Serialize(fs, TorrentsManager.TorrentsList);
-            }
+            bool fileError = false;
+            do {
+                try {
+                    using (FileStream fs = new FileStream("torrents_data", FileMode.OpenOrCreate)) {
+                        formatter.Serialize(fs, TorrentsManager.TorrentsList);
+                    }
+                    fileError = false;
+                }
+                catch (IOException) {
+                    Thread.Sleep(100);
+                    fileError = true;
+                }
+            } while (fileError);
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
