@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace OversimplifiedTorrent {
+
+    [Serializable]
     public static class TorrentsManager {
 
-        public static BindingList<Torrent> TorrentsList { get; }
+        public static BindingList<Torrent> TorrentsList { get; set; }
 
         static TorrentsManager() {
             TorrentsList = new BindingList<Torrent>();

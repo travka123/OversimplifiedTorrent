@@ -71,12 +71,12 @@
 
                                     <GridViewColumn Width="200" Header="Имя" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
 
-                                    <GridViewColumn Width="200" Header="Статус" DisplayMemberBinding="{Binding Path=Status}"></GridViewColumn>
+                                    <GridViewColumn Width="180" Header="Статус" DisplayMemberBinding="{Binding Path=Status}"></GridViewColumn>
 
-                                    <GridViewColumn Width="200" Header="Последнее время обращения" DisplayMemberBinding="{Binding Path=TimeFromLastRequestString}"></GridViewColumn>
+                                    <GridViewColumn Width="180" Header="Последнее время обращения" DisplayMemberBinding="{Binding Path=TimeFromLastRequestString}"></GridViewColumn>
 
                                     <GridViewColumn Width="70" Header="Протокол" DisplayMemberBinding="{Binding Path=ProtocolString}"></GridViewColumn>
-                                    
+
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -88,7 +88,19 @@
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
             <ListView x:Name="TorrentsList" Margin="5" BorderBrush="Gray" BorderThickness="1" IsTabStop="False" 
-                      PreviewMouseLeftButtonUp="TorrentsList_PreviewMouseLeftButtonUp">
+                      PreviewMouseLeftButtonUp="TorrentsList_PreviewMouseLeftButtonUp"
+                      PreviewMouseRightButtonUp="TorrentsList_PreviewMouseRightButtonUp">
+                
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Возобнавить" Click="MenuItem_Click_TorrentContinue"></MenuItem>
+                        <MenuItem Header="Пауза" Click="MenuItem_Click_TorrentPause"></MenuItem>
+                        <MenuItem Header="Удалить">
+                            <MenuItem Header="Только торрент файл" Click="MenuItem_Click_DeleteTorrentFile"></MenuItem>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                
                 <ListView.View>
                     <GridView>
 

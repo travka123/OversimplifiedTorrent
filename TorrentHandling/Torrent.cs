@@ -1,12 +1,14 @@
 ﻿using OversimplifiedTorrent.TorrentHandling;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace OversimplifiedTorrent {
+
+    [Serializable]
     public class Torrent : INotifyPropertyChanged {
 
+        
         private TorrentFilesStream torrentFileStream;
         private TorrentTrackersManager torrentTrackers;
 
@@ -21,7 +23,7 @@ namespace OversimplifiedTorrent {
         public string PublisherURL { get; }
 
         public long PieceLength { get; }
-
+        
         public long Size {
             get {
                 return torrentFileStream.Size;
@@ -81,6 +83,15 @@ namespace OversimplifiedTorrent {
             return Name;
         }
 
+        public void Stop() {
+            
+        }
+
+        public void Continue() {
+
+        }
+
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "") {

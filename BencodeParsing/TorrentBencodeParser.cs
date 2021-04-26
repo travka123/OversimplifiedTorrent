@@ -4,6 +4,13 @@ using System.Collections.Generic;
 namespace OversimplifiedTorrent {
     public class TorrentBencodeParser {
 
+        public class RawTorrentFileInfo {
+
+            public List<string> Path { get; set; }
+
+            public long Size { get; set; }
+        }
+
         private enum TorrentFileType { OneFile, MultiFile };
 
         private BencodeDictionary root;

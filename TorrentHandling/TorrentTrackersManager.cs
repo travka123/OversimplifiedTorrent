@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent.TorrentHandling {
 
+    [Serializable]
     public class TorrentTracker {
 
         private enum ProtocolType { UNKNOWN, TCP, UDP };
@@ -82,6 +83,7 @@ namespace OversimplifiedTorrent.TorrentHandling {
         }
     }
 
+    [Serializable]
     public class TorrentTrackersManager {
 
         public BindingList<TorrentTracker> Trackers { get; }

@@ -1,9 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using static OversimplifiedTorrent.TorrentBencodeParser;
 
 namespace OversimplifiedTorrent {
+
+    [Serializable]
+    public class TorrentFile : INotifyPropertyChanged {
+        public string Path { get; set; }
+
+        public string Name { get; set; }
+
+        public long Size { get; set; }
+
+        public string SizeString {
+            get {
+                string[] sizes = { "Б", "КБ", "МБ", "ГБ", "ТБ" };
+                double len = Size;
+                int order = 0;
+                while (len >= 1024 && order < sizes.Length - 1) {
+                    order++;
+                    len = len / 1024;
+                }
+                return len.ToString("F") + " " + sizes[order];
+            }
+        }
+
+        public long Downloaded { get; set; }
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "") {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    [Serializable]
     public class TorrentFilesStream {
 
         public BindingList<TorrentFile> files { get; }

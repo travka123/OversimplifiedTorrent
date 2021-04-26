@@ -1,5 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +14,10 @@ namespace OversimplifiedTorrent {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("torrents_data", FileMode.OpenOrCreate)) {
+                TorrentsManager.TorrentsList = (BindingList<Torrent>)formatter.Deserialize(fs);
+            }
             TorrentsList.ItemsSource = TorrentsManager.TorrentsList;
         }
 
@@ -27,7 +34,10 @@ namespace OversimplifiedTorrent {
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("torrents_data", FileMode.OpenOrCreate)) {
+                formatter.Serialize(fs, TorrentsManager.TorrentsList);
+            }
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -76,6 +86,33 @@ namespace OversimplifiedTorrent {
 
         private void ShowTorrentTrackersInfo(Torrent torrent) {
             TorrentTrackersList.ItemsSource = torrent.trackers;
+        }
+
+        private void TorrentsList_PreviewMouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            TorrentData_ContextChanged();
+        }
+
+        private void MenuItem_Click_DeleteTorrentFile(object sender, RoutedEventArgs e) {
+            Torrent torrents = TorrentsList.SelectedItem as Torrent;
+            torrents.Stop();
+            TorrentsManager.TorrentsList.Remove(torrents);
+            ClearTorrentInfo();
+        }
+
+        private void ClearTorrentInfo() {
+            tbTorrentInfo.Text = "";
+            TorrentFilesList.ItemsSource = null;
+            TorrentTrackersList.ItemsSource = null;
+        }
+
+        private void MenuItem_Click_TorrentPause(object sender, RoutedEventArgs e) {
+            Torrent torrents = TorrentsList.SelectedItem as Torrent;
+            torrents.Stop();
+        }
+
+        private void MenuItem_Click_TorrentContinue(object sender, RoutedEventArgs e) {
+            Torrent torrents = TorrentsList.SelectedItem as Torrent;
+            torrents.Continue();
         }
     }
 }
