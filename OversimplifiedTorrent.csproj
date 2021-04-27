@@ -57,11 +57,13 @@
     </ApplicationDefinition>
     <Compile Include="BencodeParsing\BencodeData.cs" />
     <Compile Include="BencodeParsing\BencodeParser.cs" />
+    <Compile Include="BencodeParsing\TrackerResponseBencodeParser.cs" />
     <Compile Include="TorrentHandling\Torrent.cs" />
     <Compile Include="BencodeParsing\TorrentBencodeParser.cs" />
     <Compile Include="TorrentHandling\TorrentsManager.cs" />
     <Compile Include="TorrentHandling\TorrentFilesStream.cs" />
     <Compile Include="TorrentHandling\TorrentTrackersManager.cs" />
+    <Compile Include="WebLogger.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

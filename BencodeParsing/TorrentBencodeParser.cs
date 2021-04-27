@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OversimplifiedTorrent {
     public class TorrentBencodeParser {
@@ -108,6 +110,26 @@ namespace OversimplifiedTorrent {
                 else {
                     throw new NotImplementedException();
                 }
+            }
+        }
+
+        private string computedInfoHash = null;
+        public string InfoHash {
+            get {
+                return computedInfoHash ?? ComputeInfoHash();
+            }
+        }
+
+        private string ComputeInfoHash() {
+            using (SHA1Managed sha1 = new SHA1Managed()) {
+                byte[] hash = sha1.ComputeHash((root.data["___INFO_HAST_STRING___"] as BencodeString).data);
+                var sb = new StringBuilder();
+                foreach (byte b in hash) {
+                    sb.Append('%');
+                    sb.Append(b.ToString("x2"));
+                }
+                computedInfoHash = sb.ToString();
+                return computedInfoHash;
             }
         }
 

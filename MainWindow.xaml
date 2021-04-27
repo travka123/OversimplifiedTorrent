@@ -129,6 +129,8 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
+                        <GridViewColumn Header="Статус" Width="80" DisplayMemberBinding="{Binding Path=StatusString}"></GridViewColumn>
+
                     </GridView>
                 </ListView.View>
             </ListView>

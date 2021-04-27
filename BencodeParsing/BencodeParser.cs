@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace OversimplifiedTorrent {
@@ -8,6 +9,12 @@ namespace OversimplifiedTorrent {
 
         public static BencodeData Parse(string filePath) {
             byte[] source = File.ReadAllBytes(filePath);
+            int start = 0;
+            return ParseNext(source, ref start);
+        }
+
+        public static BencodeData ParseText(string text) {
+            byte[] source = Encoding.UTF8.GetBytes(text);
             int start = 0;
             return ParseNext(source, ref start);
         }
@@ -72,7 +79,16 @@ namespace OversimplifiedTorrent {
             position++;
             while (Encoding.ASCII.GetChars(source, position, 1)[0] != 'e') {
                 string key = ParseNext(source, ref position).ToString();
+                int lastpos = position;
                 BencodeData value = ParseNext(source, ref position);
+
+                if (key.ToString() == "info") {
+                    BencodeString bhashstring = new BencodeString();
+                    bhashstring.data = new byte[position - lastpos];
+                    Array.Copy(source, lastpos, bhashstring.data, 0, position - lastpos);
+                    BencodeDataDictionary.Add("___INFO_HAST_STRING___", bhashstring);
+                }
+
                 BencodeDataDictionary.Add(key, value);
             }
             position++;
