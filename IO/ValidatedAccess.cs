@@ -6,9 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent {
+
+    [Serializable]
     class ValidatedAccess {
         private IndexedAccess access;
         private byte[] hashes;
+
+        public delegate void PieceRecivedMethods(int index);
+        public event PieceRecivedMethods OnPieceReciving;
+
+        public int PiecesCount {
+            get {
+                return hashes.Length / 20;
+            }
+        }
 
         public ValidatedAccess(List<FileMetadata> filesMetadata, string directory, long pieceLength, byte[] pieces) {
             access = new IndexedAccess(filesMetadata, directory, pieceLength);
@@ -19,6 +30,7 @@ namespace OversimplifiedTorrent {
             using (SHA1Managed sha = new SHA1Managed()) {
                 if (IsCorrectHash(index, sha.ComputeHash(buffer))) {
                     access.Write(buffer, index);
+                    OnPieceReciving(index);
                     return true;
                 }
                 return false;

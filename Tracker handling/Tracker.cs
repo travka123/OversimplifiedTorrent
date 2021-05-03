@@ -1,11 +1,13 @@
 ﻿using OversimplifiedTorrent.BencodeParsing;
 using OversimplifiedTorrent.Data_structures;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace OversimplifiedTorrent {
+
     [Serializable]
     public class Tracker {
         private string announce;
@@ -19,6 +21,10 @@ namespace OversimplifiedTorrent {
         private Task updateTask = null;
         [NonSerialized]
         private CancellationTokenSource cancelTokenSource = null;
+
+        
+        public delegate void RecivePeersMethods(List<PeerAddress> peers);
+        public event RecivePeersMethods OnPeersReciving;
 
         public Tracker(string announce, byte[] infoHash, byte[] peerID) {
             this.announce = announce;
@@ -82,6 +88,7 @@ namespace OversimplifiedTorrent {
             }
 
             interval = trackerResponse.interval * 1000;
+            OnPeersReciving(trackerResponse.peers);
         }
 
         private long GetMillisecondsBeforeRetrying() {

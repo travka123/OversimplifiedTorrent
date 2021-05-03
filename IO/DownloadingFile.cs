@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent {
 
+    [Serializable]
     public class DownloadingFile {
+
+        [NonSerialized]
         private object locker = new object();
 
         public string Path { get; }

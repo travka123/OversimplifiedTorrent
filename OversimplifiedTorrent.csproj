@@ -58,21 +58,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bencode parsing\BencodeParser.cs" />
+    <Compile Include="BitfieldController.cs" />
     <Compile Include="Data structures\DownloadingProgress.cs" />
     <Compile Include="Data structures\PeerAddress.cs" />
     <Compile Include="Bencode parsing\TorrentParser.cs" />
     <Compile Include="Data structures\TrackerResponse.cs" />
     <Compile Include="Bencode parsing\TrackerResponseParser.cs" />
     <Compile Include="Data structures\FileMetadata.cs" />
-    <Compile Include="IndexedAccess.cs" />
-    <Compile Include="DownloadingFile.cs" />
+    <Compile Include="IO\IndexedAccess.cs" />
+    <Compile Include="IO\DownloadingFile.cs" />
+    <Compile Include="PiecePicker.cs" />
     <Compile Include="Tracker handling\TrackerRequest.cs" />
     <Compile Include="Torrent handling\Torrent.cs" />
     <Compile Include="Torrent handling\TorrentsHandler.cs" />
     <Compile Include="Data structures\TorrentMetadata.cs" />
     <Compile Include="Tracker handling\Tracker.cs" />
     <Compile Include="Tracker handling\TrackersHandler.cs" />
-    <Compile Include="ValidatedAccess.cs" />
+    <Compile Include="IO\ValidatedAccess.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

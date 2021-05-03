@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent {
+
+    [Serializable]
     public class IndexedAccess {
 
         private long pieceLength;

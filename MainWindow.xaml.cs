@@ -15,7 +15,17 @@ namespace OversimplifiedTorrent {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
             TorrentsList.ItemsSource = TorrentsHandler.TorrentsList;
+            //try {
+            //    using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate)) {
+            //        TorrentsHandler.TorrentsList = (BindingList<Torrent>)binaryFormatter.Deserialize(fs);
+            //    }
+            //    TorrentsList.ItemsSource = TorrentsHandler.TorrentsList;
+            //}
+            //catch {
+            //    TorrentsList.ItemsSource = TorrentsHandler.TorrentsList;
+            //}
         }
 
         private void MenuItem_Click_Exit(object sender, RoutedEventArgs e) {
@@ -31,7 +41,10 @@ namespace OversimplifiedTorrent {
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            //using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate)) {
+            //    binaryFormatter.Serialize(fs, TorrentsHandler.TorrentsList);
+            //}
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {

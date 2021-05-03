@@ -8,7 +8,7 @@ namespace OversimplifiedTorrent {
     [Serializable]
     public static class TorrentsHandler {
 
-        public static BindingList<Torrent> TorrentsList { get; }
+        public static BindingList<Torrent> TorrentsList { get; set; }
 
         static TorrentsHandler() {
             TorrentsList = new BindingList<Torrent>();
