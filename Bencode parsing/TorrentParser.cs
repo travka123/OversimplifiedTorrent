@@ -106,7 +106,7 @@ namespace OversimplifiedTorrent.BencodeParsing {
 
         private static void SetPieces(TorrentMetadata meta, Dictionary<string, object> root) {
             try {
-                meta.pieces = BencodeParser.ExtractASCIIString((root["info"] as Dictionary<string, object>)["pieces"]);
+                meta.pieces = (root["info"] as Dictionary<string, object>)["pieces"] as byte[];
             }
             catch {
 

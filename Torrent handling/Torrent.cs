@@ -16,7 +16,7 @@ namespace OversimplifiedTorrent {
         private TorrentMetadata torrentMetadata;
         private TrackersHandler trackersHandler;
         private DownloadingProgress downloadingProgress;
-        private IndexedAccess pieces;
+        private ValidatedAccess pieces;
 
         #region ViewProperties
         
@@ -35,11 +35,9 @@ namespace OversimplifiedTorrent {
                 peerID = GetRandomID();
                 downloadingProgress = new DownloadingProgress();
                 CreateDirectories(torrentMetadata.files, directory);
-                pieces = new IndexedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength);
+                pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);
                 trackersHandler = new TrackersHandler(torrentMetadata.announceList, torrentMetadata.infoHash, peerID);
-
-                pieces.Read(0);
-                
+                pieces.Read(14954);
             }
             else {
                 throw new Exception();

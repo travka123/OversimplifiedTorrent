@@ -61,7 +61,7 @@ namespace OversimplifiedTorrent {
                         mem.Write(buffer, 0, buffer.Length);
                     }
                 }
-                return mem.GetBuffer();
+                return mem.ToArray();
             }
         }
 

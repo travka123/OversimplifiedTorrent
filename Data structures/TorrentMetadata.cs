@@ -14,7 +14,7 @@ namespace OversimplifiedTorrent {
         public List<FileMetadata> files;
         public string name;
         public long pieceLength;
-        public string pieces;
+        public byte[] pieces;
         public string source;
         public string publisher;
         public string publisherURL;

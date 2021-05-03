@@ -19,11 +19,10 @@ namespace OversimplifiedTorrent {
         }
 
         public int Read(byte[] buffer, long offset, int length) {
-            byte[] part = new byte[length];
             lock (locker) {
                 using (FileStream fs = new FileStream(Path, FileMode.Open, FileAccess.Read)) {
                     fs.Seek(offset, SeekOrigin.Begin);
-                    return fs.Read(part, 0, length);                   
+                    return fs.Read(buffer, 0, length);                   
                 }
             }
         }
