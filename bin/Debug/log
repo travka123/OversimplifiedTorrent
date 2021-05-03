@@ -2353,3 +2353,21 @@ http://tracker2.wasabii.com.tw:6969/announce?info_hash=%20%41%c9%1e%9c%be%11%d2%
 http://tracker.filetracker.pl:8089/announce?info_hash=%20%41%c9%1e%9c%be%11%d2%f2%d6%23%bc%c9%9b%09%b5%07%42%45%ba&peer_id=EHX3TBZia/IGCsYjOkSK&port=6881&uploaded=0&downloaded=0&left=31686866371&event=started
 Превышено время ожидания
 
+http://retracker.local/announce?info_hash=%1a%06%c1%7e%e6%21%80%c0%78%6b%94%7b%df%b9%a6%61%cd%63%6d%ce&peer_id=xJVoSIO20A8NPYGBeNT2&port=6881&uploaded=0&downloaded=0&left=455997074&event=started
+Невозможно соединиться с удаленным сервером
+
+http://retracker.local/announce?info_hash=%1a%06%c1%7e%e6%21%80%c0%78%6b%94%7b%df%b9%a6%61%cd%63%6d%ce&peer_id=xJVoSIO20A8NPYGBeNT2&port=6881&uploaded=0&downloaded=0&left=455997074&event=started
+Невозможно соединиться с удаленным сервером
+
+http://bt4.t-ru.org/ann?info_hash=%fb%23%48%5e%cc%a8%2b%1f%97%b6%4c%6f%73%5f%dd%e7%b9%d3%f1%26&peer_id=SY3xbmWerXs+UXprApKI&port=6881&uploaded=0&downloaded=0&left=787304532&event=started
+Удаленный сервер возвратил ошибку: (403) Запрещено.
+
+http://retracker.local/announce?info_hash=%fb%23%48%5e%cc%a8%2b%1f%97%b6%4c%6f%73%5f%dd%e7%b9%d3%f1%26&peer_id=SY3xbmWerXs+UXprApKI&port=6881&uploaded=0&downloaded=0&left=787304532&event=started
+Невозможно соединиться с удаленным сервером
+
+http://retracker.local/announce?info_hash=%1a%06%c1%7e%e6%21%80%c0%78%6b%94%7b%df%b9%a6%61%cd%63%6d%ce&peer_id=9cUmtkEFRZdGg9XvDc3L&port=6881&uploaded=0&downloaded=0&left=455997074&event=started
+Невозможно соединиться с удаленным сервером
+
+http://bt2.archive.org:6969/announce?info_hash=%ac%c3%b2%e4%33%d7%c7%47%5a%bb%59%41%b5%68%1c%b7%a1%ea%26%e2&peer_id=OrTkzPeds5QqYedab8nx&port=6881&uploaded=0&downloaded=0&left=353159&event=started
+d8:completei0e10:downloadedi0e10:incompletei1e8:intervali1755e12:min intervali877e5:peers6:V9���e
+

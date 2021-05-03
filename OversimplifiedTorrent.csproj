@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,15 +57,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BencodeParsing\BencodeData.cs" />
-    <Compile Include="BencodeParsing\BencodeParser.cs" />
-    <Compile Include="BencodeParsing\TrackerResponseBencodeParser.cs" />
-    <Compile Include="TorrentHandling\Torrent.cs" />
-    <Compile Include="BencodeParsing\TorrentBencodeParser.cs" />
-    <Compile Include="TorrentHandling\TorrentsManager.cs" />
-    <Compile Include="TorrentHandling\TorrentFilesStream.cs" />
-    <Compile Include="TorrentHandling\TorrentTrackersManager.cs" />
-    <Compile Include="WebLogger.cs" />
+    <Compile Include="Bencode parsing\BencodeParser.cs" />
+    <Compile Include="Data structures\DownloadingProgress.cs" />
+    <Compile Include="Data structures\PeerAddress.cs" />
+    <Compile Include="Bencode parsing\TorrentParser.cs" />
+    <Compile Include="Data structures\TrackerResponse.cs" />
+    <Compile Include="Bencode parsing\TrackerResponseParser.cs" />
+    <Compile Include="Data structures\FileMetadata.cs" />
+    <Compile Include="IndexedAccess.cs" />
+    <Compile Include="DownloadingFile.cs" />
+    <Compile Include="Tracker handling\TrackerRequest.cs" />
+    <Compile Include="Torrent handling\Torrent.cs" />
+    <Compile Include="Torrent handling\TorrentsHandler.cs" />
+    <Compile Include="Data structures\TorrentMetadata.cs" />
+    <Compile Include="Tracker handling\Tracker.cs" />
+    <Compile Include="Tracker handling\TrackersHandler.cs" />
+    <Compile Include="ValidatedAccess.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

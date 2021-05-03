@@ -73,7 +73,7 @@
 
                                     <GridViewColumn Width="180" Header="Статус" DisplayMemberBinding="{Binding Path=Status}"></GridViewColumn>
 
-                                    <GridViewColumn Width="180" Header="Последнее время обращения" DisplayMemberBinding="{Binding Path=TimeFromLastRequestString}"></GridViewColumn>
+                                    <GridViewColumn Width="180" Header="Последнее время обращения" DisplayMemberBinding="{Binding Path=LastRequestTimeString}"></GridViewColumn>
 
                                     <GridViewColumn Width="70" Header="Протокол" DisplayMemberBinding="{Binding Path=ProtocolString}"></GridViewColumn>
 
