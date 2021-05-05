@@ -144,12 +144,17 @@ namespace OversimplifiedTorrent.BencodeParsing {
             try {
                 meta.announceList = new List<string>();
                 string announceMain = BencodeParser.ExtractASCIIString(root["announce"]);
-                meta.announceList.Add(announceMain);
-                foreach (object item in BencodeParser.ExtractList(root["announce-list"])) {
-                    string announce = BencodeParser.ExtractASCIIString(BencodeParser.ExtractList(item)[0]);
-                    if (announceMain != announce) {
-                        meta.announceList.Add(announce);
+                try {
+                    meta.announceList.Add(announceMain);
+                    foreach (object item in BencodeParser.ExtractList(root["announce-list"])) {
+                        string announce = BencodeParser.ExtractASCIIString(BencodeParser.ExtractList(item)[0]);
+                        if (announceMain != announce) {
+                            meta.announceList.Add(announce);
+                        }
                     }
+                }
+                catch {
+
                 }
             }
             catch {
