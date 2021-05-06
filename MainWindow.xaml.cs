@@ -15,8 +15,9 @@ namespace OversimplifiedTorrent {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            PeersConnectionsReciver.StartListen();
             TorrentsList.ItemsSource = TorrentsHandler.TorrentsList;
+            //BinaryFormatter binaryFormatter = new BinaryFormatter();
             //try {
             //    using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate)) {
             //        TorrentsHandler.TorrentsList = (BindingList<Torrent>)binaryFormatter.Deserialize(fs);

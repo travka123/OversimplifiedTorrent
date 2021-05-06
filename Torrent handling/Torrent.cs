@@ -18,6 +18,9 @@ namespace OversimplifiedTorrent {
         private DownloadingProgress downloadingProgress;
         private ValidatedAccess pieces;
         private BitfieldController bitfield;
+        private PeersManager peersManager;
+        private PeersConnectionsSetter connectionsSetter;
+        
 
         #region ViewProperties
         
@@ -43,10 +46,14 @@ namespace OversimplifiedTorrent {
                 downloadingProgress = new DownloadingProgress();
                 CreateDirectories(torrentMetadata.files, directory);
                 pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);
-                bitfield = new BitfieldController(PiecesCount);
-                pieces.OnPieceReciving += bitfield.MarkLocalRecivedPiece;
+                bitfield = new BitfieldController(PiecesCount);            
                 trackersHandler = new TrackersHandler(torrentMetadata.announceList, torrentMetadata.infoHash, peerID);
-                
+                peersManager = new PeersManager(torrentMetadata.infoHash, peerID);
+                connectionsSetter = new PeersConnectionsSetter(torrentMetadata.infoHash, peerID);
+
+                pieces.OnPieceReciving += bitfield.MarkLocalRecivedPiece;
+                PeersConectionsRouter.RegisterPeerManager(peersManager);
+                trackersHandler.RegisterPeerConnectionSetter(connectionsSetter);
             }
             else {
                 throw new Exception();
@@ -90,6 +97,7 @@ namespace OversimplifiedTorrent {
 
         public void StartDownloading() {        
             trackersHandler.StartUpdating(downloadingProgress);
+
         }
 
         

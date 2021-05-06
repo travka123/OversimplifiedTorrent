@@ -65,8 +65,16 @@
     <Compile Include="Data structures\TrackerResponse.cs" />
     <Compile Include="Bencode parsing\TrackerResponseParser.cs" />
     <Compile Include="Data structures\FileMetadata.cs" />
+    <Compile Include="PeersConectionsRouter.cs" />
     <Compile Include="IO\IndexedAccess.cs" />
     <Compile Include="IO\DownloadingFile.cs" />
+    <Compile Include="PeersConnectionsReciver.cs" />
+    <Compile Include="PeersConnectionsSetter.cs" />
+    <Compile Include="PeersManager.cs" />
+    <Compile Include="PeerSocketMessages\HandshakeMessage.cs" />
+    <Compile Include="PeerSocketMessages\PeerSocketMessage.cs" />
+    <Compile Include="PeerIO\PeerReader.cs" />
+    <Compile Include="PeerIO\PeerWriter.cs" />
     <Compile Include="PiecePicker.cs" />
     <Compile Include="Tracker handling\TrackerRequest.cs" />
     <Compile Include="Torrent handling\Torrent.cs" />

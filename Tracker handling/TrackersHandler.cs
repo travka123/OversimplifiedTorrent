@@ -18,7 +18,6 @@ namespace OversimplifiedTorrent {
             foreach (string announce in announceList) {
                 Tracker tracker = new Tracker(announce, infoHash, peerID);
                 trackers.Add(tracker);
-                tracker.OnPeersReciving += RecivePeerAddresses;
             }
         }
 
@@ -41,11 +40,9 @@ namespace OversimplifiedTorrent {
             return null;
         }
 
-        private void RecivePeerAddresses(List<PeerAddress> npeers) {
-            lock (queueAddLocker) {
-                foreach (PeerAddress np in npeers) {
-                    peers.Enqueue(np);
-                }
+        public void RegisterPeerConnectionSetter(PeersConnectionsSetter setter) {
+            foreach (var tracker in trackers) {
+                tracker.OnPeersReciving += setter.AddAddresses;
             }
         }
     }

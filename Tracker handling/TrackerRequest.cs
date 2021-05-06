@@ -21,7 +21,7 @@ namespace OversimplifiedTorrent {
         public void Create(string announceURL, string infoHash, string peerID, string port,
             string uploaded, string downloaded, string left, TrackerRequestType requestEvent) {
             request = new StringBuilder();
-            request.Append($"{announceURL}?info_hash={infoHash}&peer_id={peerID}&port={port}&uploaded={uploaded}&downloaded={downloaded}&left={left}");
+            request.Append($"{announceURL}?info_hash={infoHash}&peer_id={peerID}&port={PeersConnectionsReciver.Port}&uploaded={uploaded}&downloaded={downloaded}&left={left}");
             if (requestEvent != TrackerRequestType.Regular) {
                 request.Append($"&event={RequestEventString(requestEvent)}");
             }
