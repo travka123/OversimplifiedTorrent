@@ -52,7 +52,7 @@ namespace OversimplifiedTorrent {
                 connectionsSetter = new PeersConnectionsSetter(torrentMetadata.infoHash, peerID);
 
                 pieces.OnPieceReciving += bitfield.MarkLocalRecivedPiece;
-                PeersConectionsRouter.RegisterPeerManager(peersManager);
+                PeerHandshaker.AddPeersManager(peersManager);
                 trackersHandler.RegisterPeerConnectionSetter(connectionsSetter);
             }
             else {
@@ -97,13 +97,14 @@ namespace OversimplifiedTorrent {
 
         public void StartDownloading() {        
             trackersHandler.StartUpdating(downloadingProgress);
-
+            peersManager.Start();
         }
 
         
 
         public void StopDownloading() {
             trackersHandler.StopUpdating();
+            peersManager.Stop();
         }
     }
 }

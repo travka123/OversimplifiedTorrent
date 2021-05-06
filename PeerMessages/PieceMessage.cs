@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent.PeerSocketMessages {
-    public class HandshakeMessage {
-        public string pstr;
-        public byte[] reserved;
-        public byte[] info_hash;
-        public byte[] peer_id;
+    public class PieceMessage : PeerMessage {
+        public int index;
+        public int begin;
+        public byte[] block;
     }
 }

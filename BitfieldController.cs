@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 namespace OversimplifiedTorrent {
     public class BitfieldController {
 
-        private byte[] localBitfield;
+        
         private bool[] recived;
-        private Dictionary<string, byte[]> remoteBitfields;
+        private Dictionary<string, bool[]> remoteBitfields;
         private int[] swarmPiecesAvailability;
         private Random random = new Random();
+
+        public byte[] localBitfield { get; }
 
         public int PiecesCount { get; }
 
@@ -19,7 +21,7 @@ namespace OversimplifiedTorrent {
             PiecesCount = piecesCount;
             recived = new bool[piecesCount];
             localBitfield = new byte[piecesCount / 8 + (((piecesCount % 8) > 0) ? (1) : (0))];
-            remoteBitfields = new Dictionary<string, byte[]>();
+            remoteBitfields = new Dictionary<string, bool[]>();
             swarmPiecesAvailability = new int[piecesCount];
         }
 
@@ -33,22 +35,33 @@ namespace OversimplifiedTorrent {
 
         public void MrakRemoteRecivedPiece(string peerIdentificator, int index) {
             if (!remoteBitfields.ContainsKey(peerIdentificator)) {
-                remoteBitfields[peerIdentificator] = new byte[PiecesCount / 8 + (((PiecesCount % 8) > 0) ? (1) : (0))];
+                remoteBitfields[peerIdentificator] = new bool[PiecesCount];
             }
-            MarkRecivedPiece(index, remoteBitfields[peerIdentificator]);
+            remoteBitfields[peerIdentificator][index] = true;
         }
 
         public void MarkRemoteBitfield(string peerIdentificator, byte[] bitfield) {
-            remoteBitfields[peerIdentificator] = bitfield;
-            for (int i = 0; i < bitfield.Length; i++) {
-                swarmPiecesAvailability[i * 8] += bitfield[i] & 128;
-                swarmPiecesAvailability[i * 8 + 1] += bitfield[i] & 64;
-                swarmPiecesAvailability[i * 8 + 2] += bitfield[i] & 32;
-                swarmPiecesAvailability[i * 8 + 3] += bitfield[i] & 16;
-                swarmPiecesAvailability[i * 8 + 4] += bitfield[i] & 8;
-                swarmPiecesAvailability[i * 8 + 5] += bitfield[i] & 4;
-                swarmPiecesAvailability[i * 8 + 6] += bitfield[i] & 2;
-                swarmPiecesAvailability[i * 8 + 7] += bitfield[i] & 1;
+            remoteBitfields[peerIdentificator] = new bool[PiecesCount];
+            int i;
+            for (i = 0; i < bitfield.Length - 1; i++) {
+                remoteBitfields[peerIdentificator][i * 8] = (bitfield[i] & 128) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 1] = (bitfield[i] & 64) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 2] = (bitfield[i] & 32) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 3] = (bitfield[i] & 16) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 4] = (bitfield[i] & 8) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 5] = (bitfield[i] & 4) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 6] = (bitfield[i] & 2) == 1;
+                remoteBitfields[peerIdentificator][i * 8 + 7] = (bitfield[i] & 1) == 1;
+            }
+            byte lastbyte = bitfield[i];
+            for (int j = i * 8; j < remoteBitfields[peerIdentificator].Length; j++) {
+                remoteBitfields[peerIdentificator][j] = (bitfield[i] & 128) == 1;
+                lastbyte <<= 1;
+            }
+            for (int j = 0; j < swarmPiecesAvailability.Length; j++) {
+                if (remoteBitfields[peerIdentificator][j]) {
+                    swarmPiecesAvailability[j]++;
+                }
             }
         }
 

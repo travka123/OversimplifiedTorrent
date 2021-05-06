@@ -35,7 +35,7 @@ namespace OversimplifiedTorrent {
             while (true) {
                 try {
                     TcpClient tcpClient = listenSocket.AcceptTcpClient();
-                    PeersConectionsRouter.HandleIncomingConnection(tcpClient);
+                    PeerHandshaker.HandleIncomingConnection(tcpClient);
                 }
                 catch {
                     
