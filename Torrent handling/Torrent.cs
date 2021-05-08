@@ -17,7 +17,7 @@ namespace OversimplifiedTorrent {
         private TrackersHandler trackersHandler;
         private DownloadingProgress downloadingProgress;
         private ValidatedAccess pieces;
-        private BitfieldController bitfield;
+        private Bitfield localBitfield;
         private PeersManager peersManager;
         private PeersConnectionsSetter connectionsSetter;
         
@@ -45,13 +45,11 @@ namespace OversimplifiedTorrent {
                 peerID = GetRandomID();
                 downloadingProgress = new DownloadingProgress();
                 CreateDirectories(torrentMetadata.files, directory);
-                pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);
-                bitfield = new BitfieldController(PiecesCount);            
+                pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);                       
                 trackersHandler = new TrackersHandler(torrentMetadata.announceList, torrentMetadata.infoHash, peerID);
-                peersManager = new PeersManager(torrentMetadata.infoHash, peerID);
+                localBitfield = new Bitfield(PiecesCount);
+                peersManager = new PeersManager(torrentMetadata.infoHash, peerID, localBitfield);
                 connectionsSetter = new PeersConnectionsSetter(torrentMetadata.infoHash, peerID);
-
-                pieces.OnPieceReciving += bitfield.MarkLocalRecivedPiece;
                 PeerHandshaker.AddPeersManager(peersManager);
                 trackersHandler.RegisterPeerConnectionSetter(connectionsSetter);
             }

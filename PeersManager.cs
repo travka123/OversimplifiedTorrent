@@ -16,14 +16,17 @@ namespace OversimplifiedTorrent {
 
         public byte[] PeerID { get; }
 
-        public PeersManager(byte[] infoHash, byte[] peerID) {
+        PiecePicker piecePicker;
+
+        public PeersManager(byte[] infoHash, byte[] peerID, Bitfield local) {
             InfoHash = infoHash;
             PeerID = peerID;
             peers = new Dictionary<byte[], Peer>(new ByteArrayComparer());
+            piecePicker = new PiecePicker(local);
         }
 
         public void AddPeer(TcpClient tcpClient, HandshakeData handshakeData) {
-            peers[handshakeData.peerID] = new Peer(tcpClient);
+            peers[handshakeData.peerID] = new Peer(tcpClient, piecePicker);
         }
 
         public void Start() {

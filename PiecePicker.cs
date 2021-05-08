@@ -7,27 +7,28 @@ using System.Threading.Tasks;
 namespace OversimplifiedTorrent {
     public class PiecePicker {
 
-        private BitfieldController bitfield;
-        private bool[] pending;
-        private bool endgame;
+        private Bitfield local;
+        private Bitfield requested;
+        private SwarmPiecesCounter piecesCounter;
 
-        public PiecePicker(BitfieldController bitfield) {
-            this.bitfield = bitfield;
-            pending = new bool[bitfield.PiecesCount];
-            endgame = false;
-        }
-
-        public int GetPieceToRecive() {
-            if (endgame) {
-                return bitfield.GetPieceToRecive();
-            }
-            else {
-                return bitfield.GetPieceToRecive(pending);
+        public int PiecesCount {
+            get {
+                return local.Length;
             }
         }
 
-        public void DenyPieceReciving(int index) {
-            pending[index] = false;
+        public PiecePicker(Bitfield local) {
+            this.local = local;
+            requested = new Bitfield(local.Length);
+            piecesCounter = new SwarmPiecesCounter(local.Length);
+        }
+
+        public void RegisterRemoteBitfield(Bitfield bitfield) {
+            piecesCounter.RegisterBitfield(bitfield);
+        }
+
+        public byte[] GetLocalBitfieldBytes() {
+            return local.GetBytes();
         }
     }
 }

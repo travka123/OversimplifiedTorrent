@@ -58,6 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bencode parsing\BencodeParser.cs" />
+    <Compile Include="Bitfield.cs" />
     <Compile Include="BitfieldController.cs" />
     <Compile Include="ByteArrayComparer.cs" />
     <Compile Include="Data structures\DownloadingProgress.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="PeerMessageStream\PeerMessageWriter.cs" />
     <Compile Include="PeerMessages\RequestMessage.cs" />
     <Compile Include="PiecePicker.cs" />
+    <Compile Include="SwarmPiecesCounter.cs" />
     <Compile Include="Tracker handling\TrackerRequest.cs" />
     <Compile Include="Torrent handling\Torrent.cs" />
     <Compile Include="Torrent handling\TorrentsHandler.cs" />
