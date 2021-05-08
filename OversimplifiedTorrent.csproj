@@ -67,6 +67,10 @@
     <Compile Include="Bencode parsing\TrackerResponseParser.cs" />
     <Compile Include="Data structures\FileMetadata.cs" />
     <Compile Include="Peer.cs" />
+    <Compile Include="PeerInterruption.cs" />
+    <Compile Include="PeerInterruptionQueue.cs" />
+    <Compile Include="PeerMessageInterruption.cs" />
+    <Compile Include="PeerMessagesAsyncReciver.cs" />
     <Compile Include="PeerMessageStream\PeerHandshakeStream.cs" />
     <Compile Include="PeerMessages\PieceMessage.cs" />
     <Compile Include="PeerHandshaker.cs" />
