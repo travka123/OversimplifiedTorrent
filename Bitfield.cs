@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace OversimplifiedTorrent {
     public class Bitfield : IEnumerable {
 
-        private BitArray bitArray;
+        public BitArray bitArray { get; private set; }
 
         public int Length {
             get {

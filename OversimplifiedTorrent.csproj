@@ -88,6 +88,7 @@
     <Compile Include="PeerMessageStream\PeerMessageWriter.cs" />
     <Compile Include="PeerMessages\RequestMessage.cs" />
     <Compile Include="PiecePicker.cs" />
+    <Compile Include="PiecesPartsManager.cs" />
     <Compile Include="SwarmPiecesCounter.cs" />
     <Compile Include="Tracker handling\TrackerRequest.cs" />
     <Compile Include="Torrent handling\Torrent.cs" />

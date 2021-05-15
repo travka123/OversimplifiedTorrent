@@ -46,5 +46,26 @@ namespace OversimplifiedTorrent {
                 }
             }
         }
+
+        public int GetPieceToRecive(Bitfield local, Bitfield remote, BitArray requested) {
+            BitArray suitable = remote.bitArray.And(local.bitArray.Not().And(requested.Not()));
+            int i;
+            int minpos = -1;
+            for (i = 0; i < suitable.Length; i++) {
+                if (suitable[i]) {
+                    minpos = i;
+                    break;
+                }
+            }
+            if (minpos == -1) {
+                return -1;
+            }
+            for (; i < suitable.Length; i++) {
+                if (suitable[i] && (swarmPiecesAvailability[minpos] > swarmPiecesAvailability[i])) {
+                    minpos = i;
+                }
+            }
+            return minpos;
+        }
     }
 }

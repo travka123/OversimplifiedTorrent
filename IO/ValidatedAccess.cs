@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace OversimplifiedTorrent {
 
     [Serializable]
-    class ValidatedAccess {
+    public class ValidatedAccess {
         private IndexedAccess access;
         private byte[] hashes;
 
