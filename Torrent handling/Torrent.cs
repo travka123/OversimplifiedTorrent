@@ -45,9 +45,10 @@ namespace OversimplifiedTorrent {
                 peerID = GetRandomID();
                 downloadingProgress = new DownloadingProgress();
                 CreateDirectories(torrentMetadata.files, directory);
-                pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);                       
-                trackersHandler = new TrackersHandler(torrentMetadata.announceList, torrentMetadata.infoHash, peerID);
+                pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);
                 localBitfield = new Bitfield(PiecesCount);
+                LookForDownloadedFiles(pieces, localBitfield);
+                trackersHandler = new TrackersHandler(torrentMetadata.announceList, torrentMetadata.infoHash, peerID);
                 peersManager = new PeersManager(torrentMetadata.infoHash, peerID, localBitfield);
                 connectionsSetter = new PeersConnectionsSetter(torrentMetadata.infoHash, peerID);
                 PeerHandshaker.AddPeersManager(peersManager);
@@ -55,6 +56,14 @@ namespace OversimplifiedTorrent {
             }
             else {
                 throw new Exception();
+            }
+        }
+
+        private void LookForDownloadedFiles(ValidatedAccess validatedAccess, Bitfield bitfield) {
+            for (int i = 0; i < validatedAccess.PiecesCount; i++) {
+                if (validatedAccess.Read(i) != null) {
+                    bitfield.MarkAsRecived(i);
+                }
             }
         }
 

@@ -33,7 +33,9 @@ namespace OversimplifiedTorrent {
         public void MarkAsRecived(int index) {
             if (!bitArray[index]) {
                 bitArray[index] = true;
-                OnRecivingPiece(index);
+                if (OnRecivingPiece != null) {
+                    OnRecivingPiece(index);
+                }
             }        
         }
 

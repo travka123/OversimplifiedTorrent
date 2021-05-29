@@ -6,8 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent {
-
-    [Serializable]
     public class ValidatedAccess {
         private IndexedAccess access;
         private byte[] hashes;
@@ -38,11 +36,16 @@ namespace OversimplifiedTorrent {
         }
 
         public byte[] Read(int index) {
-            byte[] buffer = access.Read(index);
-            using (SHA1Managed sha = new SHA1Managed()) {
-                if (IsCorrectHash(index, sha.ComputeHash(buffer))) {
-                    return buffer;
+            try {
+                byte[] buffer = access.Read(index);
+                using (SHA1Managed sha = new SHA1Managed()) {
+                    if (IsCorrectHash(index, sha.ComputeHash(buffer))) {
+                        return buffer;
+                    }
+                    return null;
                 }
+            }
+            catch {
                 return null;
             }
         }

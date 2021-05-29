@@ -32,9 +32,5 @@ namespace OversimplifiedTorrent {
             requestedParts = new List<PiecePartData>();
             unrequestedSize = 0;
         }
-
-        public PiecePartData GetPartToRecive() {
-            
-        }
     }
 }

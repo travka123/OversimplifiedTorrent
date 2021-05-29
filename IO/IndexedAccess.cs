@@ -52,7 +52,7 @@ namespace OversimplifiedTorrent {
                 while ((mem.Length < pieceLength) && (i < files.Length)) {
                     if (pieceLength - mem.Length > files[i].Length - offset) {
                         byte[] buffer = new byte[files[i].Length - offset];
-                        files[i].Read(buffer, offset, buffer.Length);
+                        int readed = files[i].Read(buffer, offset, buffer.Length);
                         mem.Write(buffer, 0, buffer.Length);
                         i++;
                         offset = 0;
@@ -77,59 +77,5 @@ namespace OversimplifiedTorrent {
             offset -= files[--i].Length;
             offset = globalOffset - offset;
         }
-
-        //public PiecesAccess(List<FileMetadata> filesMetadata, string directory, long pieceLength) {
-        //    files = new DownloadingFile[filesMetadata.Count];
-        //    this.pieceLength = pieceLength;
-        //    int i = 0;
-        //    foreach (FileMetadata metadata in filesMetadata) {
-        //        files[i].length = metadata.length;
-        //        files[i].descriptor = new SynchronousFileAccess(directory + '\\' + metadata.relativePath);
-        //        files[i].piecesCount = metadata.length / pieceLength;
-        //        if (metadata.length % pieceLength > 0) { files[i].piecesCount++; }
-        //        i++;
-        //    }
-        //}
-
-        //public void Write(byte[] buffer, long index) {
-        //    long offset;
-        //    TorrentFile file = GetPieceLocation(index, out offset);
-        //    file.descriptor.Write(buffer, offset);
-        //}
-
-        //public byte[] Read(long index) {
-        //    long offset;
-        //    long length;
-        //    TorrentFile file = GetPieceLocation(index, out offset, out length);
-        //    return file.descriptor.Read(offset, length);
-        //}
-
-        //private TorrentFile GetPieceLocation(long index, out long offset) {
-        //    long total = 0;
-        //    int i = 0;
-        //    do {
-        //        total += files[i++].piecesCount;
-        //    } while (total <= index);
-        //    total -= files[--i].piecesCount;
-        //    offset = (index - total) * pieceLength;
-        //    return files[i];
-        //}
-
-        //private TorrentFile GetPieceLocation(long index, out long offset, out long curPieceLength) {
-        //    long total = 0;
-        //    int i = 0;
-        //    do {
-        //        total += files[i++].piecesCount;
-        //    } while (total <= index);
-        //    total -= files[--i].piecesCount;
-        //    offset = (index - total) * pieceLength;
-        //    if (files[i].length < (offset + pieceLength)) {
-        //        curPieceLength = files[i].length - offset;
-        //    }
-        //    else {
-        //        curPieceLength = pieceLength;
-        //    }
-        //    return files[i];
-        //}
     }
 }

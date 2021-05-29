@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace OversimplifiedTorrent {
-
-    [Serializable]
     public class DownloadingFile {
-
-        [NonSerialized]
         private object locker = new object();
 
         public string Path { get; }
+
         public long Length { get; }
 
         public DownloadingFile(string path, long length) {
