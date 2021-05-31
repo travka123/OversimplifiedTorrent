@@ -25,6 +25,9 @@ namespace OversimplifiedTorrent {
         }
 
         public void Enqueue(PeerInterruption interruption) {
+            if (interruption == null) {
+                throw new ArgumentNullException();
+            }
             lock (addLocker) {
                 interruptions.Enqueue(interruption);
                 waiteTokenSource.Cancel();
@@ -33,15 +36,20 @@ namespace OversimplifiedTorrent {
         }
 
         public PeerInterruption Dequeue() {
-            lock (addLocker) {
-                return interruptions.Dequeue();
+            CancellationToken token;
+            bool empty = false;
+            if (interruptions.Count == 0) {
+                lock (addLocker) {
+                    if (interruptions.Count == 0) {
+                        empty = true;
+                        token = waiteTokenSource.Token;
+                    }
+                }
             }
-        }
-
-        public CancellationToken GetWaitToken() {
-            lock (addLocker) {
-                return waiteTokenSource.Token;
+            if (empty) {
+                token.WaitHandle.WaitOne();
             }
+            return interruptions.Dequeue();
         }
     }
 }

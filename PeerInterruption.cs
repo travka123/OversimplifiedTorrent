@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent {
     
-    public enum PeerInterruptionType { PeerMessage, CloseRequest };
+    public enum PeerInterruptionType { PeerMessage, CloseRequest, PieceDownloaded, OnTimer };
 
     public class PeerInterruption {
         public PeerInterruptionType type;

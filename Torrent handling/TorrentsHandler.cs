@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 namespace OversimplifiedTorrent {
 
-    [Serializable]
     public static class TorrentsHandler {
 
         public static BindingList<Torrent> TorrentsList { get; set; }
@@ -21,8 +20,13 @@ namespace OversimplifiedTorrent {
                 TorrentMetadata torrentMetadata = TorrentParser.Parse(torrentFilePath);
                 FolderBrowserDialog saveFileDialog = new FolderBrowserDialog();
                 saveFileDialog.ShowDialog();
-                Torrent torrent = new Torrent(torrentMetadata, saveFileDialog.SelectedPath);
-                TorrentsList.Add(torrent);
+                if (saveFileDialog.SelectedPath != "") {
+                    Torrent torrent = new Torrent(torrentMetadata, saveFileDialog.SelectedPath, true);
+                    TorrentsList.Add(torrent);
+                }
+                else {
+                    System.Windows.MessageBox.Show("Не удалось добавить торрент", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch {
                 System.Windows.MessageBox.Show("Не удалось добавить торрент", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -30,8 +30,16 @@ namespace OversimplifiedTorrent {
         }
 
         private void ReciveLoop(CancellationToken cancellationToken) {
-            while (!cancellationToken.IsCancellationRequested) {
-                OnPeerMessageReciving(messageReader.ReadNext());
+            try {
+                while (!cancellationToken.IsCancellationRequested) {
+                    OnPeerMessageReciving(messageReader.ReadNext());
+                }
+            }
+            catch {
+
+            }
+            finally {
+                OnPeerMessageReciving(new PeerMessage { type=PeerMessageType.Closed, size=0 });
             }
         }
 

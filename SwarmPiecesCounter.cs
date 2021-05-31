@@ -10,7 +10,7 @@ namespace OversimplifiedTorrent {
 
         int[] swarmPiecesAvailability;
 
-        public SwarmPiecesCounter(int piecesCount) {  
+        public SwarmPiecesCounter(int piecesCount) {
             swarmPiecesAvailability = new int[piecesCount];
         }
 
@@ -48,24 +48,41 @@ namespace OversimplifiedTorrent {
         }
 
         public int GetPieceToRecive(Bitfield local, Bitfield remote, BitArray requested) {
-            BitArray suitable = remote.bitArray.And(local.bitArray.Not().And(requested.Not()));
-            int i;
-            int minpos = -1;
-            for (i = 0; i < suitable.Length; i++) {
-                if (suitable[i]) {
-                    minpos = i;
-                    break;
+            BitArray suitable = new BitArray(local.bitArray).Or(requested).Not().And(remote.bitArray);
+            int index = GetPieceToRecive(suitable);
+            if (index == -1) {
+                suitable = new BitArray(local.bitArray).Not().And(remote.bitArray);
+                index = GetPieceToRecive(suitable);
+            }
+            return index;
+        }
+
+        private Random random = new Random();
+
+        private int GetPieceToRecive(BitArray suitable) {
+            int start = random.Next(suitable.Length);
+            int i = start;
+            for (; (i < suitable.Length) && (!suitable[i]); i++) { }
+            if (i == suitable.Length) {
+                for (i = 0; (i < start) && (!suitable[i]); i++) { }
+                if (i == start) {
+                    return -1;
                 }
             }
-            if (minpos == -1) {
-                return -1;
-            }
-            for (; i < suitable.Length; i++) {
-                if (suitable[i] && (swarmPiecesAvailability[minpos] > swarmPiecesAvailability[i])) {
-                    minpos = i;
+            int best = i;
+            if (i >= start) {
+                for (; i < suitable.Length; i++) {
+                    if (suitable[i] && (swarmPiecesAvailability[best] > swarmPiecesAvailability[i])) {
+                        best = i;
+                    }
                 }
             }
-            return minpos;
+            for (i = 0; i < start; i++) {
+                if (suitable[i] && (swarmPiecesAvailability[best] > swarmPiecesAvailability[i])) {
+                    best = i;
+                }
+            }
+            return best;
         }
     }
 }

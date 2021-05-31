@@ -19,6 +19,12 @@ namespace OversimplifiedTorrent {
             }
         }
 
+        public long FilesSize {
+            get {
+                return access.FilesSize;
+            }
+        }
+
         public ValidatedAccess(List<FileMetadata> filesMetadata, string directory, long pieceLength, byte[] pieces) {
             access = new IndexedAccess(filesMetadata, directory, pieceLength);
             hashes = pieces;
@@ -58,6 +64,13 @@ namespace OversimplifiedTorrent {
                 }
             }
             return true;
+        }
+
+        public int GetPieceSize(int index) {
+            if (index < PiecesCount - 1) {
+                return (int)access.PieceLength;
+            }
+            return (int)(access.FilesSize % access.PieceLength);
         }
     }
 }

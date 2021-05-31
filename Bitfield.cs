@@ -56,5 +56,15 @@ namespace OversimplifiedTorrent {
         public IEnumerator GetEnumerator() {
             return bitArray.GetEnumerator();
         }
+
+        public int GetDownloadedPiecesCount() {
+            int count = 0;
+            for (int i = 0; i < bitArray.Length; i++) {
+                if (bitArray[i]) {
+                    count++;
+                }
+            }
+            return count;
+        }
     }
 }

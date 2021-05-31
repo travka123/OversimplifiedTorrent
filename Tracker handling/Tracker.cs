@@ -45,6 +45,7 @@ namespace OversimplifiedTorrent {
         }
 
         private void UpdateLoop(CancellationToken cancellationToken) {
+            Update();
             while (!cancellationToken.IsCancellationRequested) {
                 WaitBeforeRequest(cancellationToken);
                 if (!cancellationToken.IsCancellationRequested) {
@@ -108,6 +109,7 @@ namespace OversimplifiedTorrent {
         public void StopUpdating() {
             if (updateTask != null) {
                 cancelTokenSource.Cancel();
+                updateTask = null;
             }
         }
     }

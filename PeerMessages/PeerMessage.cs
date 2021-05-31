@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OversimplifiedTorrent.PeerSocketMessages {
 
-    public enum PeerMessageType { Unknown, KeepAlive, Choke, Unchoke, Intrested, NotIntrested, Have, Bitfield, Request, Piece }
+    public enum PeerMessageType { Unknown, KeepAlive, Choke, Unchoke, Intrested, NotIntrested, Have, Bitfield, Request, Piece, Closed }
 
     public class PeerMessage {
         public Int32 size;

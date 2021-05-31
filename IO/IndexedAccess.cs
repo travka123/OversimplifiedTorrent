@@ -10,15 +10,20 @@ namespace OversimplifiedTorrent {
     [Serializable]
     public class IndexedAccess {
 
-        private long pieceLength;
+        public long PieceLength { get; }
+
+        public long FilesSize { get; }
+
         private DownloadingFile[] files;
 
         public IndexedAccess(List<FileMetadata> filesMetadata, string directory, long pieceLength) {
             files = new DownloadingFile[filesMetadata.Count];
-            this.pieceLength = pieceLength;
+            this.PieceLength = pieceLength;
             int i = 0;
+            FilesSize = 0;
             foreach (FileMetadata metadata in filesMetadata) {
                 files[i++] = new DownloadingFile(directory + '\\' + metadata.relativePath, metadata.length);
+                FilesSize += metadata.length;
             }
         }
 
@@ -49,8 +54,8 @@ namespace OversimplifiedTorrent {
             long offset;
             GetPieceStartLocation(index, out i, out offset);
             using (MemoryStream mem = new MemoryStream()) {
-                while ((mem.Length < pieceLength) && (i < files.Length)) {
-                    if (pieceLength - mem.Length > files[i].Length - offset) {
+                while ((mem.Length < PieceLength) && (i < files.Length)) {
+                    if (PieceLength - mem.Length > files[i].Length - offset) {
                         byte[] buffer = new byte[files[i].Length - offset];
                         int readed = files[i].Read(buffer, offset, buffer.Length);
                         mem.Write(buffer, 0, buffer.Length);
@@ -58,7 +63,7 @@ namespace OversimplifiedTorrent {
                         offset = 0;
                     }
                     else {
-                        byte[] buffer = new byte[pieceLength - mem.Length];
+                        byte[] buffer = new byte[PieceLength - mem.Length];
                         files[i].Read(buffer, offset, buffer.Length);
                         mem.Write(buffer, 0, buffer.Length);
                     }
@@ -68,7 +73,7 @@ namespace OversimplifiedTorrent {
         }
 
         private void GetPieceStartLocation(int index, out int i, out long offset) {
-            long globalOffset = index * pieceLength;
+            long globalOffset = index * PieceLength;
             offset = 0;
             i = 0;
             do {

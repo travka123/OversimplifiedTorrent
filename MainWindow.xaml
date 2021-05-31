@@ -29,32 +29,11 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <Label>Файлы</Label>
+                    <Label>Пиры</Label>
                 </TabItem.Header>
                 <TabItem.Content>
                     <ScrollViewer>
-                        <ListView x:Name="TorrentFilesList" BorderThickness="0">
-                            <ListView.View>
-                                <GridView>
-
-                                    <GridViewColumn Width="200" Header="Имя" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
-
-                                    <GridViewColumn Width="300" Header="Путь" DisplayMemberBinding="{Binding Path=Path}"></GridViewColumn>
-
-                                    <GridViewColumn Width="80" Header="Размер" DisplayMemberBinding="{Binding Path=SizeString}"></GridViewColumn>
-
-                                    <GridViewColumn Width="150" Header="Прогресс загрузки">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <ProgressBar Minimum="0" Maximum="{Binding Path=Size}"  Value="{Binding Path=Downloaded, Mode=OneWay}" 
-                                                 Width="120" Height="15"  Margin="5 0 5 0"></ProgressBar>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <TextBox x:Name="tbPeerInfo" Margin="5" IsReadOnly="True"></TextBox>
                     </ScrollViewer>
                 </TabItem.Content>
             </TabItem>
@@ -123,13 +102,13 @@
                         <GridViewColumn Width="250" Header="Прогресс загрузки">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ProgressBar Minimum="0" Maximum="{Binding Path=Size}"  Value="{Binding Path=Downloaded, Mode=OneWay}" 
-                                                 Width="220" Height="15"  Margin="5 0 5 0"></ProgressBar>
+                                    <ProgressBar Minimum="0" Maximum="{Binding Path=ProgressBarMaximum}"  Value="{Binding Path=ProgressBarValue, Mode=OneWay}" 
+                                                 Width="220" Height="15"  Margin="5 0 5 0" Name="torrentProgress"></ProgressBar>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="Статус" Width="80" DisplayMemberBinding="{Binding Path=StatusString}"></GridViewColumn>
+                        <GridViewColumn Header="Статус" Width="140" DisplayMemberBinding="{Binding Path=StatusString}"></GridViewColumn>
 
                     </GridView>
                 </ListView.View>

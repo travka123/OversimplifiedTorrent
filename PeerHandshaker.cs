@@ -20,8 +20,13 @@ namespace OversimplifiedTorrent {
             PeerHandshakeStream handshakeStream = new PeerHandshakeStream(tcpClient.GetStream());
             HandshakeData handshakeData = handshakeStream.ReadHandshake();
             PeersManager manager = peersManagers[handshakeData.infoHash];
-            handshakeStream.WriteHandshake(manager.InfoHash, manager.PeerID);
-            manager.AddPeer(tcpClient, handshakeData);
+            if (manager.IsRecivingConnections) {
+                handshakeStream.WriteHandshake(manager.InfoHash, manager.PeerID);
+                manager.AddPeer(tcpClient, handshakeData);
+            }
+            else {
+                tcpClient.Close();
+            }
         }
 
         public static void HandleOutcomingConnection(TcpClient tcpClient, byte[] infoHash, byte[] peerID) {
