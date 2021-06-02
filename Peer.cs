@@ -28,14 +28,14 @@ namespace OversimplifiedTorrent {
         private int bufferedPieceIndex;
         private MemoryStream sendingPieceStreamBuffer;
 
+        private Timer timer;
+
         public delegate void ClosingMethods(Peer sender);
         public event ClosingMethods OnClosing;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        Timer timer;
-
-        DateTime timelastpiecereciving;
+        private DateTime lastReciveTime;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -71,31 +71,40 @@ namespace OversimplifiedTorrent {
 
             bufferedPieceIndex = -1;
 
-            timelastpiecereciving = DateTime.Now;
+            lastReciveTime = DateTime.Now;
 
             timer = new Timer((object obj) => {
                 interruptionQueue.Enqueue(new PeerInterruption { type = PeerInterruptionType.OnTimer });
-            }, null, 500, 0);
+            }, null, 2000, 2000);
+             
+
         }
 
         private void CommunicationLoop() {
-            try {
-                messageWriter.WriteBitfield(piecePicker.GetLocalBitfieldBytes());
-                messageWriter.WriteUnchoke();
-                PeerInterruption interruption;
-                do {
-                    interruption = interruptionQueue.Dequeue();
-                    HandleInterruption(interruption);
-                } while (interruption.type != PeerInterruptionType.CloseRequest);
-            }
-            catch  {
-                
-            }
-            finally {
-                OnClosing(this);
-                tcpClient.Close();
-            }
-            
+
+            messageWriter.WriteBitfield(piecePicker.GetLocalBitfieldBytes());
+            messageWriter.WriteUnchoke();
+            PeerInterruption interruption;
+
+            do {
+                interruption = interruptionQueue.Dequeue();
+                try {
+                    if (interruption != null) {
+                        HandleInterruption(interruption);
+                    }
+                    else {
+                        interruption = new PeerInterruption() { type = PeerInterruptionType.OnTimer };
+                        continue;
+                    }
+                }
+                catch (Exception ex) {
+                    SendClose();
+                }
+            } while (interruption.type != PeerInterruptionType.CloseRequest);
+            reciver.StopRecive();
+            OnClosing(this);
+            tcpClient.Close();
+            timer.Dispose();
         }
 
         public void Communicate() {
@@ -113,8 +122,21 @@ namespace OversimplifiedTorrent {
                     break;
 
                 case PeerInterruptionType.OnTimer:
-                    HandleTimerInterruption();
+                    HandleOnTimer();
                     break;
+
+
+            }
+        }
+
+        private void HandleOnTimer() {
+            if (!tcpClient.Connected) {
+                SendClose();
+            }
+
+            if (((DateTime.Now - lastReciveTime).TotalMilliseconds > 5000) && (piecePicker.local.GetDownloadedPiecesCount() > 30)) {
+                RequestNextPiece();
+                lastReciveTime = DateTime.Now;
             }
         }
 
@@ -166,9 +188,14 @@ namespace OversimplifiedTorrent {
                 int sizeToRecive = requestedPieceSize - recivedPieceSize > requestSize ? requestSize : requestedPieceSize - recivedPieceSize;
                 messageWriter.WriteRequest(requestedPieceIndex, 0, sizeToRecive);
             }
+            if ((requestedPieceIndex == -1) &&
+                (remoteBitfield.GetDownloadedPiecesCount() > piecePicker.local.GetDownloadedPiecesCount())) {
+                throw new Exception();
+            }
         }
 
         private void HandlePieceMessage(PieceMessage message) {
+            lastReciveTime = DateTime.Now;
             if ((message.index == requestedPieceIndex) && (message.begin == recivedPieceSize)) {
                 pieceReciveStream.Write(message.block, 0, message.block.Length);
                 recivedPieceSize += message.block.Length;
@@ -178,7 +205,6 @@ namespace OversimplifiedTorrent {
                 }
                 else {
                     validatedAccess.Write(pieceReciveStream.ToArray(), requestedPieceIndex);
-                    timelastpiecereciving = DateTime.Now;
                     RequestNextPiece();
                 }
             }
@@ -221,11 +247,6 @@ namespace OversimplifiedTorrent {
             interruptionQueue.Enqueue(new PeerInterruption { type = PeerInterruptionType.CloseRequest });
         }
 
-        private void HandleTimerInterruption() {
-            if ((timelastpiecereciving - DateTime.Now).TotalMilliseconds > 500) {
-                RequestNextPiece();
-                timelastpiecereciving = DateTime.Now;
-            }
-        }
+
     }
 }

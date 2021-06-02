@@ -160,6 +160,7 @@ namespace OversimplifiedTorrent {
                 CreateDirectories(torrentMetadata.files, directory);
                 pieces = new ValidatedAccess(torrentMetadata.files, directory, torrentMetadata.pieceLength, torrentMetadata.pieces);
                 localBitfield = new Bitfield(PiecesCount);
+                localBitfield.OnRecivingPiece += CheckIfDownloaded;
                 trackersHandler = new TrackersHandler(torrentMetadata.announceList, torrentMetadata.infoHash, peerID);
                 peersManager = new PeersManager(torrentMetadata.infoHash, peerID, localBitfield, pieces);
                 connectionsSetter = new PeersConnectionsSetter(torrentMetadata.infoHash, peerID);
@@ -196,7 +197,11 @@ namespace OversimplifiedTorrent {
             }
         }
 
-
+        private void CheckIfDownloaded(int index) {
+            if (localBitfield.GetDownloadedPiecesCount() == pieces.PiecesCount) {
+                Status = StatusType.Seeding;
+            }
+        }
 
         private void CreateDirectories(List<FileMetadata> files, string directory) {
             foreach (FileMetadata file in files) {

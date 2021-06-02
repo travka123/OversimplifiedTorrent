@@ -72,7 +72,7 @@
                 
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Возобнавить" Click="MenuItem_Click_TorrentContinue"></MenuItem>
+                        <MenuItem Header="Возобновить" Click="MenuItem_Click_TorrentContinue"></MenuItem>
                         <MenuItem Header="Пауза" Click="MenuItem_Click_TorrentPause"></MenuItem>
                         <MenuItem Header="Удалить">
                             <MenuItem Header="Только торрент файл" Click="MenuItem_Click_DeleteTorrentFile"></MenuItem>
